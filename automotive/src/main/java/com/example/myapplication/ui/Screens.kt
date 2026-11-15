@@ -1,5 +1,6 @@
 package com.example.myapplication.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,12 +36,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.AppUiState
 import com.example.myapplication.BuildConfig
+import com.example.myapplication.R
 import com.example.myapplication.shared.CallSummary
 import com.example.myapplication.shared.data.InsuranceCatalog
 import com.example.myapplication.shared.model.AccidentKind
@@ -148,8 +153,8 @@ fun OnboardingScreen(
 
     CabinScreen {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Column {
-                Text("H-safe", style = MaterialTheme.typography.headlineMedium, color = HSafeColors.HyundaiBlue)
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                HSafeWordmark(height = 40.dp)
                 Text("차량·보험·운전자·응급정보 등록", color = HSafeColors.Muted, fontSize = 22.sp)
             }
             GhostAction("샘플 입력", onClick = { fillSample() })
@@ -274,17 +279,9 @@ fun HomeScreen(
     CabinScreen {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(
-                    Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(HSafeColors.HyundaiBlue),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("H", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-                }
-                Column {
-                    Text("H-safe", style = MaterialTheme.typography.headlineLarge, color = HSafeColors.HyundaiNavy)
+                HSafeMark(size = 56.dp)
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    HSafeWordmark(height = 44.dp)
                     Text("차량 응급 · 보험 접수", color = HSafeColors.Muted, fontSize = 26.sp)
                 }
             }
@@ -541,30 +538,30 @@ private class KindOption(
 @Composable
 private fun kindOptionsFor(mode: ResponseMode): List<KindOption> = when (mode) {
     ResponseMode.EMERGENCY_119 -> listOf(
-        KindOption(AccidentKind.UNCONSCIOUS, "의식 없음", "실신·반응 없음", HSafeColors.EmergencyRed) { IconUnconscious(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.BREATHING_ISSUE, "호흡 이상", "호흡곤란·무호흡", HSafeColors.EmergencyRed) { IconBreathing(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.HEAVY_BLEEDING, "대량 출혈", "지혈 필요", HSafeColors.EmergencyRed) { IconBleeding(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.ENTRAPMENT, "끼임·구조", "차체 압박·탈출 불가", HSafeColors.EmergencyRed) { IconEntrapment(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.CHEST_PAIN, "흉통·심정지", "가슴통증·심정지 의심", HSafeColors.EmergencyRed) { IconChestPain(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.MULTI_CASUALTY, "다수 사상", "부상자 2명 이상", HSafeColors.EmergencyRed) { IconMultiCasualty(HSafeColors.EmergencyRed, 48.dp) }
+        KindOption(AccidentKind.UNCONSCIOUS, "의식 없음", "실신·반응 없음", HSafeColors.EmergencyRed) { IconUnconscious(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.BREATHING_ISSUE, "호흡 이상", "호흡곤란·무호흡", HSafeColors.EmergencyRed) { IconBreathing(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.HEAVY_BLEEDING, "대량 출혈", "지혈 필요", HSafeColors.EmergencyRed) { IconBleeding(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.ENTRAPMENT, "끼임·구조", "차체 압박·탈출 불가", HSafeColors.EmergencyRed) { IconEntrapment(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.CHEST_PAIN, "흉통·심정지", "가슴통증·심정지 의심", HSafeColors.EmergencyRed) { IconChestPain(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.MULTI_CASUALTY, "다수 사상", "부상자 2명 이상", HSafeColors.EmergencyRed) { IconMultiCasualty(HSafeColors.EmergencyRed, 56.dp) }
     )
     ResponseMode.FIRE_119 -> listOf(
-        KindOption(AccidentKind.VEHICLE_FIRE, "차량 화재", "불꽃·발화", HSafeColors.FireOrange) { IconFire(HSafeColors.FireOrange, 48.dp) },
-        KindOption(AccidentKind.SMOKE, "연기 발생", "연무·냄새", HSafeColors.FireOrange) { IconSmoke(HSafeColors.FireOrange, 48.dp) },
-        KindOption(AccidentKind.EV_BATTERY_FIRE, "배터리 화재", "전기차·하이브리드", HSafeColors.FireOrange) { IconBatteryFire(HSafeColors.FireOrange, 48.dp) },
-        KindOption(AccidentKind.FUEL_LEAK, "연료 누출", "휘발유·경유 누출", HSafeColors.FireOrange) { IconFuelLeak(HSafeColors.FireOrange, 48.dp) },
-        KindOption(AccidentKind.ENGINE_OVERHEAT, "엔진 과열", "엔진룸 과열·스팀", HSafeColors.FireOrange) { IconOverheat(HSafeColors.FireOrange, 48.dp) },
-        KindOption(AccidentKind.OTHER, "기타 위험", "폭발·누출 의심", HSafeColors.FireOrange) { IconOther(HSafeColors.FireOrange, 48.dp) }
+        KindOption(AccidentKind.VEHICLE_FIRE, "차량 화재", "불꽃·발화", HSafeColors.FireOrange) { IconFire(HSafeColors.FireOrange, 56.dp) },
+        KindOption(AccidentKind.SMOKE, "연기 발생", "연무·냄새", HSafeColors.FireOrange) { IconSmoke(HSafeColors.FireOrange, 56.dp) },
+        KindOption(AccidentKind.EV_BATTERY_FIRE, "배터리 화재", "전기차·하이브리드", HSafeColors.FireOrange) { IconBatteryFire(HSafeColors.FireOrange, 56.dp) },
+        KindOption(AccidentKind.FUEL_LEAK, "연료 누출", "휘발유·경유 누출", HSafeColors.FireOrange) { IconFuelLeak(HSafeColors.FireOrange, 56.dp) },
+        KindOption(AccidentKind.ENGINE_OVERHEAT, "엔진 과열", "엔진룸 과열·스팀", HSafeColors.FireOrange) { IconOverheat(HSafeColors.FireOrange, 56.dp) },
+        KindOption(AccidentKind.OTHER, "기타 위험", "폭발·누출 의심", HSafeColors.FireOrange) { IconOther(HSafeColors.FireOrange, 56.dp) }
     )
     else -> listOf(
-        KindOption(AccidentKind.REAR_END, "후미 추돌", "뒤에서 받음·밀림", HSafeColors.HyundaiBlue) { IconRearEnd(HSafeColors.HyundaiBlue, 48.dp) },
-        KindOption(AccidentKind.SIDE_CONTACT, "측면 접촉", "사이드·차선 변경", HSafeColors.HyundaiBlue) { IconSideContact(HSafeColors.HyundaiBlue, 48.dp) },
-        KindOption(AccidentKind.HEAD_ON, "정면 충돌", "마주 보고 충돌", HSafeColors.HyundaiBlue) { IconHeadOn(HSafeColors.HyundaiBlue, 48.dp) },
-        KindOption(AccidentKind.SINGLE_VEHICLE, "단독 사고", "가드레일·시설물", HSafeColors.HyundaiSky) { IconSingleVehicle(HSafeColors.HyundaiSky, 48.dp) },
-        KindOption(AccidentKind.PROPERTY_DAMAGE, "대물", "상대차·시설 파손", HSafeColors.HyundaiSky) { IconPropertyDamage(HSafeColors.HyundaiSky, 48.dp) },
-        KindOption(AccidentKind.PERSON_INJURY, "대인", "보행자·탑승자 부상", HSafeColors.EmergencyRed) { IconPersonInjury(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.HIT_AND_RUN, "뺑소니", "가해자 도주", HSafeColors.EmergencyRed) { IconHitAndRun(HSafeColors.EmergencyRed, 48.dp) },
-        KindOption(AccidentKind.OTHER, "기타", "복합·분류 어려움", HSafeColors.Muted) { IconOther(HSafeColors.Muted, 48.dp) }
+        KindOption(AccidentKind.REAR_END, "후미 추돌", "뒤에서 받음·밀림", HSafeColors.HyundaiBlue) { IconRearEnd(HSafeColors.HyundaiBlue, 56.dp) },
+        KindOption(AccidentKind.SIDE_CONTACT, "측면 접촉", "사이드·차선 변경", HSafeColors.HyundaiBlue) { IconSideContact(HSafeColors.HyundaiBlue, 56.dp) },
+        KindOption(AccidentKind.HEAD_ON, "정면 충돌", "마주 보고 충돌", HSafeColors.HyundaiBlue) { IconHeadOn(HSafeColors.HyundaiBlue, 56.dp) },
+        KindOption(AccidentKind.SINGLE_VEHICLE, "단독 사고", "가드레일·시설물", HSafeColors.HyundaiSky) { IconSingleVehicle(HSafeColors.HyundaiSky, 56.dp) },
+        KindOption(AccidentKind.PROPERTY_DAMAGE, "대물", "상대차·시설 파손", HSafeColors.HyundaiSky) { IconPropertyDamage(HSafeColors.HyundaiSky, 56.dp) },
+        KindOption(AccidentKind.PERSON_INJURY, "대인", "보행자·탑승자 부상", HSafeColors.EmergencyRed) { IconPersonInjury(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.HIT_AND_RUN, "뺑소니", "가해자 도주", HSafeColors.EmergencyRed) { IconHitAndRun(HSafeColors.EmergencyRed, 56.dp) },
+        KindOption(AccidentKind.OTHER, "기타", "복합·분류 어려움", HSafeColors.Muted) { IconOther(HSafeColors.Muted, 56.dp) }
     )
 }
 
@@ -648,6 +645,28 @@ private fun SensorChip(text: String) {
             }
         }
     }
+}
+
+@Composable
+private fun HSafeMark(size: Dp) {
+    Image(
+        painter = painterResource(R.drawable.logo_hsafe_mark),
+        contentDescription = "H-SAFE",
+        modifier = Modifier
+            .size(size)
+            .clip(RoundedCornerShape(14.dp)),
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
+private fun HSafeWordmark(height: Dp) {
+    Image(
+        painter = painterResource(R.drawable.logo_hsafe_wordmark),
+        contentDescription = "H-SAFE",
+        modifier = Modifier.height(height),
+        contentScale = ContentScale.Fit
+    )
 }
 
 private fun kindLabel(kind: AccidentKind): String = CallSummary.kindLabel(kind)
