@@ -1,0 +1,5 @@
+# Copy to pleos.local.properties and fill in values from Pleos Playground.
+pleos.project.id=
+pleos.client.id=
+pleos.client.secret=
+pleos.crn=
