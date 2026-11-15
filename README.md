@@ -1,10 +1,12 @@
-# 사고한장 (Sagohanjang)
+# H-safe
 
-차량 사고 직후 보험사 연결과 통화용 요약을 돕는 Android Automotive / Pleos 앱입니다.
+차량 사고 직후 **119 전화·문자**와 **보험사 접수**를 돕는 Android Automotive / Pleos 앱입니다.
+
+기능 전체 정리: [`FEATURES.md`](FEATURES.md)
 
 ## 모듈
 
-- `:automotive` — 차량 앱 MVP (본 제품)
+- `:automotive` — 차량 앱 (본 제품)
 - `:shared` — 도메인 모델·DataStore
 - `:mobile` — 템플릿 유지 (모바일 접수는 준비 중)
 
@@ -30,7 +32,12 @@ adb reboot
 
 1. Pleos Connect Emulator v2.1.0 (API 34) AVD 실행
 2. `:automotive` Run
-3. 시연 흐름: 보험 등록 → **사고 대응** → 다이얼/ARS → 시연용 고속도로 요약 → 현장 기록 → 접수번호
+3. 시연 흐름: 등록 → 홈(119응급/소방/교통사고) → 유형 선택 → 전화/문자
+
+## 시연 영상
+
+- `demo/hsafe_demo_등록화면.mp4`
+- `demo/hsafe_demo_사용화면.mp4`
 
 ## SDK
 
